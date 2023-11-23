@@ -18,7 +18,7 @@ with st.sidebar:
 
 st.title('LipNet Full Stack App') 
 # Generating a list of options or videos 
-options = os.listdir(os.path.join('..', 'data', 's1'))
+options = os.listdir(os.path.join('.', 'data', 's1'))
 selected_video = st.selectbox('Choose video', options)
 
 # Generate two columns 
@@ -26,7 +26,7 @@ col1, col2 = st.columns(2)
 
 if options: 
     # selected_video_path = os.path.join('..', 'data', 's1', selected_video)
-    selected_video_path= os.path.join('..', 'data', 's1', selected_video)
+    selected_video_path= os.path.join('.', 'data', 's1', selected_video)
     # Rendering the video 
     with col1: 
         
@@ -55,7 +55,7 @@ if options:
         yhat = model.predict(tf.expand_dims(video, axis=0))
         decoder = tf.keras.backend.ctc_decode(yhat, [75], greedy=True)[0][0].numpy()
 
-        # st.text(decoder)
+        st.text(decoder)
         st.info('Real text')
         # converted_prediction = tf.strings.reduce_join(num_to_char(decoder)).numpy().decode('utf-8')
         st.text(tf.strings.reduce_join(num_to_char(annotations)).numpy().decode('utf-8'))
