@@ -31,14 +31,14 @@ if options:
     with col1: 
         
         st.info('The video below displays the converted video in mp4 format')
-        os.system(f'ffmpeg -i {selected_video_path} -vcodec libx264 test_video.mp4 -y')
+        # os.system(f'ffmpeg -i {selected_video_path} -vcodec libx264 test_video.mp4 -y')
         # //converting to  mp4
         
 
         # video = None
         
         # Rendering inside of the app
-        video = open('test_video.mp4', 'rb') 
+        video = open(selected_video_path, 'rb') 
         video_bytes = video.read() 
         st.video(video_bytes)
 
@@ -47,12 +47,18 @@ if options:
         video, annotations = load_data(tf.convert_to_tensor(selected_video_path))
         video = np.array(video)
         video_pixels = (video.astype(np.uint8) * 255).squeeze()
+
+        # Save the list of frames as an animation
         imageio.mimsave('animation.gif', video_pixels, duration=50)
-        st.image('animation.gif', width=400) 
+
+        # Display the GIF in Streamlit
+        st.image('animation.gif', width=400)
+        imageio.mimsave('animation.gif', video_pixels, duration=50)
+        # st.image('animation.gif', width=400) 
 
         st.info('This is the output of the machine learning model as tokens')
         model = load_model()
-        yhat = model.predict(tf.expand_dims(video, axis=0))
+        yhat = model.predict(tf.expand_dims(video_pixels, axis=0))
         decoder = tf.keras.backend.ctc_decode(yhat, [75], greedy=True)[0][0].numpy()
 
         st.text(decoder)
