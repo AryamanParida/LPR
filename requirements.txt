@@ -109,3 +109,4 @@ Werkzeug==2.3.7
 wrapt==1.15.0
 zipp==3.17.0
 streamlit==1.28.2
+ffmpeg-python
