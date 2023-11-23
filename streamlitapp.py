@@ -68,5 +68,5 @@ if options:
 
         # Convert prediction to text
         st.info('Decode the raw tokens into words')
-        converted_prediction = tf.strings.reduce_join(num_to_char(decoder)).numpy().decode('utf-8')
+        converted_prediction = tf.strings.reduce_join(num_to_char(annotations)).numpy().decode('utf-8')
         st.text(converted_prediction)
